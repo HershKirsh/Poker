@@ -11,16 +11,17 @@ function addPlayer() {
 };
 function drawCards() {
     getCards();
-    appendCardsHtml();
 };
+function appendCards() {
+    appendCardsHtml();
+}
 function endRound() {
     displayWinner(getTopScore(addUpScores()));
     lightReset();
-    deactivateButton();
 }
 function newRound() {
     resetView();
-    reactivateButton();
+    activateButton();
 }
 function reset() {
     hardResetView();

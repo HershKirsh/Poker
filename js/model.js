@@ -29,13 +29,16 @@ function addPlayerToArray(playerName) {
     };
 };
 function getCards() {
-    for (let i = 0; i < modelElems.players.length; i++) {
-        var cardPosition = (getRandom());
-        cardElems.cards[cardPosition].used = true;
-        modelElems.players[i].cards.push(cardPosition);
-        modelElems.usedCards.push(cardPosition);
+    for (let x = 0; x < 5; x++) {
+        for (let i = 0; i < modelElems.players.length; i++) {
+            var cardPosition = (getRandom());
+            cardElems.cards[cardPosition].used = true;
+            modelElems.players[i].cards.push(cardPosition);
+            modelElems.usedCards.push(cardPosition);
+        };
+       // modelElems.drawNumber++;
     };
-    modelElems.drawNumber++;
+    appendCardsHtml();
 };
 function getRandom() {
     var num;

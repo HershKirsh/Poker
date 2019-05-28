@@ -35,7 +35,7 @@ function appendHtml() {
         htmlElems.name.value = "";
         if (x == 2) {
             htmlElems.deckSpan.style.visibility = "visible";
-            htmlElems.deckButton.addEventListener("click", drawCards);
+            activateButton();
         };
         if (x == 4) {
             htmlElems.enterNameDiv.style.display = "none";
@@ -44,21 +44,28 @@ function appendHtml() {
 };
 function appendCardsHtml() {
     htmlElems.enterNameDiv.style.display = "none";
-    for (let i = 0; i < modelElems.players.length; i++) {
-        (function (i) {
+    for (let x = 0; x < 5; x++) {
+        (function (x) {
             setTimeout(function () {
-                htmlElems.playerCards[i].innerHTML +=
-                `<img src="assets/${cardElems.cards[modelElems.players[i].cards[modelElems.drawNumber - 1]].id}.jpg" 
-                alt="${cardElems.cards[modelElems.players[i].cards[modelElems.drawNumber - 1]].id}" class="card">`;
-            }, 400 * i);
-        })(i);
+                for (let i = 0; i < modelElems.players.length; i++) {
+                    (function (i) {
+                        setTimeout(function () {
+                            htmlElems.playerCards[i].innerHTML +=
+                                `<img src="assets/${cardElems.cards[modelElems.players[i].cards[x]].id}.jpg"
+                alt="${cardElems.cards[modelElems.players[i].cards[x]].id}" class="card">`;
+                        }, 400 * i);
+                    })(i);
+                };
+            }, (modelElems.players.length * 400) * x);
+        })(x);
+        if (x == 4) {
+
+            setTimeout(() => {
+                endRound();
+            }, modelElems.players.length * 2000);
+        };
     };
-    if (modelElems.drawNumber == 5) {
-        setTimeout(() => {
-          endRound();  
-        }, 2000);
-    };
-};
+}
 function displayWinner(i) {
     setTimeout(() => {
         htmlElems.winnerSpan.innerHTML = `The Winner Is ${modelElems.players[i].name}`;
@@ -72,11 +79,8 @@ function resetView() {
         htmlElems.playerCards[i].innerHTML = "";
     };
 };
-function deactivateButton() {
-    htmlElems.deckButton.removeEventListener("click", drawCards);
-};
-function reactivateButton() {
-    htmlElems.deckButton.addEventListener("click", drawCards);
+function activateButton() {
+    htmlElems.deckButton.addEventListener("click", drawCards, { once: true });
 };
 function hardResetView() {
     for (let i = 0; i < modelElems.players.length; i++) {
@@ -86,6 +90,7 @@ function hardResetView() {
         htmlElems.nameForScore[i].innerHTML = "";
     };
     htmlElems.name.setAttribute("placeholder", "First Player's Name");
+    htmlElems.deckSpan.style.visibility = "hidden";
     htmlElems.popUp[0].style.display = "none";
     htmlElems.enterNameDiv.style.display = "block";
 }
